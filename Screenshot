@@ -1,0 +1,51 @@
+package org.screenshots;
+
+import java.awt.AWTException;
+import java.awt.Dimension;
+import java.awt.Rectangle;
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.io.FileHandler;
+
+public class Screenshot {
+	public static void main(String[] args) throws IOException, AWTException {
+		System.setProperty("webdriver.edge.driver", "C:\\cd\\msedgedriver.exe");
+		WebDriver driver = new EdgeDriver();
+		driver.navigate().to("https://www.amazon.in/ref=nav_logo");
+		/* Taking Screenshot using Selenium Takesscreenshot 
+		 * calling getScreenshotAs method and storing it as a file and storing it in
+		 * a destination. Copying the screenshot to the destination using Selenium 
+		 * FileHandler interface.
+		 */
+		TakesScreenshot screenshot = (TakesScreenshot) driver;
+		File SourceFile = screenshot.getScreenshotAs(OutputType.FILE);
+		File DestinationFile = new File("E:\\Screenshot.png");
+		FileHandler.copy(SourceFile, DestinationFile);
+		
+		//We have an alternate method to take screenshot in by using Robot class 
+		driver.navigate().back();
+		/* Creating object to the Robot class. Getting the screensize and storing it using
+		 * getScreenSize() method. Passing the screensize in rectangle class.Capturing the screenshot
+		 * using the createScreenCapture method of robot class. Providing the destination for the file.
+		 * Writing the temp file into the local using ImageIO.
+		 */
+		Robot screenshot1 = new Robot();
+		Dimension ScreenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		Rectangle rectangle = new Rectangle(ScreenSize);
+		BufferedImage Source = screenshot1.createScreenCapture(rectangle);
+		File Destination = new File("E:\\Screenshot1.png");
+		ImageIO.write(Source, "PNG", Destination);
+	}
+
+}
+ 

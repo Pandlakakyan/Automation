@@ -1,0 +1,37 @@
+package org.dates;
+
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+
+public class WorkingWithCalendars {
+	public static void main(String[] args) {
+		System.setProperty("webdriver.edge.driver", "C:\\cd\\msedgedriver.exe");
+		WebDriver driver = new EdgeDriver();
+		driver.get("https://www.path2usa.com/travel-companions");
+		driver.findElement(By.id("travel_date")).click();
+		
+		// Logic to click on the month 
+		
+		while(!driver.findElement(By.cssSelector("[class = 'datepicker-days'] [class = 'datepicker-switch']")).getText().equals("November 2022")) {
+		driver.findElement(By.cssSelector("[class='datepicker-days'] [class = 'next']")).click();
+		}
+		
+		/* Logic to select the date
+		Grabbing all the dates in a list through a common locator and iterating it using for loop
+		and providing the day which we want to click as a condition for the if statement*/
+		
+		List <WebElement> Days = driver.findElements(By.className("day"));
+		int count = driver.findElements(By.className("day")).size(); 
+		for (int i = 0;i<count;i++) {
+		String day = driver.findElements(By.className("day")).get(i).getText();
+		if(day.equalsIgnoreCase("26"))
+			driver.findElements(By.className("day")).get(i).click();
+		}
+		}
+		
+	}
+
